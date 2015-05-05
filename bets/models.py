@@ -5,6 +5,7 @@ class User(models.Model):
 	netid = models.CharField(max_length = 50)
 	balance = models.FloatField(default = 0)
 	committed = models.FloatField(default = 0)
+	friendlist = models.CharField(max_length = 1000, default = '') # list of friends separated by %
 
 	def getNetID(self):
 		return self.netid
@@ -21,6 +22,17 @@ class User(models.Model):
 		else:
 			self.balance -= amt
 			self.committed += amt
+			return True
+	
+	def addFriend(self, newid):
+		# netid should not contain a '%'
+		if newid.find('%') != -1:
+			return False
+		else:
+			# if this isn't the first friend, separate by '%'
+			if len(self.friendlist) != 0:
+				self.friendlist += '%'
+			self.friendlist += newid
 			return True
 
 	def __str__(self):

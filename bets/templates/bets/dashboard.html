@@ -115,7 +115,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-bank fa-5x"></i>
+                                    <i class="fa fa-bank fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">{{ balance }} </div>
@@ -137,7 +137,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-briefcase fa-5x"></i>
+                                    <i class="fa fa-briefcase fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">{{ committed }}</div>
@@ -159,7 +159,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-tasks fa-5x"></i>
+                                    <i class="fa fa-tasks fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">13</div>
@@ -181,10 +181,10 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-users fa-5x"></i>
+                                    <i class="fa fa-users fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">5</div>
+                                    <div class="huge">{{ numfriends }}</div>
                                     <div>Total Friends</div>
                                 </div>
                             </div>
@@ -245,21 +245,11 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="list-group">
+                                {% for p in friendslist %}
                                 <a href="#" class="list-group-item">
-                                   Neil Rangwani
+                                   {{p}}
                                 </a>
-                                <a href="#" class="list-group-item">
-                                   Suraj Bhat
-                                </a>
-                                <a href="#" class="list-group-item">
-                                   Alain Kornhauser
-                                </a>
-                                <a href="#" class="list-group-item">
-                                   Karthik Dhore
-                                </a>
-                                <a href="#" class="list-group-item">
-                                   Veenu King
-                                </a>
+                                {% endfor %}
                         </div>
                         <!-- /.panel-body -->
                     </div>
