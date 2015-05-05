@@ -225,14 +225,17 @@
                             <table class="table">
                             <tbody>
                                 <tr>
+                                    {% for b in betlist %}
                                    <td class="list-group-item" ><a href="betpage.html" >
-                                   Princeton Weather
+                                        {{ b }}
+                                    
                                 </a> <span class="pull-right text-muted small">
                                     <form action="">
                                     <input type="checkbox" name="delete1" value="delete">
                                     </form>
                                     </span>
-                                </td>
+                                </td> 
+                                {% endfor %}
                                 </tr>
                              </tbody>
                              </table>

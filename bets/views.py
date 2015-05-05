@@ -17,12 +17,9 @@ def dashboard(request):
 	committed = '$' + format(u.committed, '.2f')
 	availablefunds = '$' + format(u.balance - u.committed, '.2f')
 
-	allfriends = u.friendlist.split('%')
-	print '---here---'
-	print allfriends
-	print '---here---'
+	allfriends = u.friendlist.split('%') # list of friends
 
+	allbets = Bet.objects.filter(creator = u)
 
-
-	context = {'netid': u.netid, 'friendslist': allfriends, 'balance': balance, 'committed': committed, 'availablefunds': availablefunds, 'numfriends': len(allfriends)}
+	context = {'netid': u.netid, 'betlist': allbets, 'friendslist': allfriends, 'balance': balance, 'committed': committed, 'availablefunds': availablefunds, 'numfriends': len(allfriends)}
 	return render(request, 'bets/dashboard.html', context)
