@@ -11,5 +11,8 @@ def index(request):
 
 
 def dashboard(request):
-	context = {'netid': NETID}
+	u = User.objects.get(netid = NETID)
+	balance = '$' + format(u.balance, '.2f')
+	committed = '$' + format(u.committed, '.2f')
+	context = {'netid': u.netid, 'balance': balance, 'committed': committed}
 	return render(request, 'bets/dashboard.html', context)
