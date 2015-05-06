@@ -10,7 +10,6 @@
     <meta name="author" content="">
 
     <title>BetAnyone</title>
-
     <!-- Bootstrap Core CSS -->
     <link href="../../static/bets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -240,7 +239,7 @@
                         <div class="panel-body">
                             <div class="list-group">
                                 {% for p in friendslist %}
-                                <a href="#" class="list-group-item">
+                                <a href="#" class="list-group-item" data-toggle="modal" data-target="#createBetModal">
                                    {{p}}
                                 </a>
                                 {% endfor %}
@@ -325,7 +324,7 @@
                               </div>
                                                            <div class="form-group">
                                     <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                    <span class="input-group-addon"><i class="fa fa-money"></i></span>
                                     <input id="amt" type="text" class="form-control" placeholder="Amount" name="card_amt" onchange="validateEmailAdd();"/>
                                     </div>
                               </div>
@@ -396,14 +395,27 @@
                         {% csrf_token %}
                                 <div class="form-group">
                                     <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
                                     <input id="name" type="text" class="form-control" placeholder="Title" name="bet_name"/>
                                     </div>
                               </div>
                                 <div class="form-group">
                                     <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    <span class="input-group-addon"><i class="fa fa-money"></i></span>
                                     <input id="bet_amt" type="text" class="form-control" placeholder="Bet Amount" name="bet_amt"/>
+                                    </div>
+                              </div>
+                              <div class="form-group">
+                                    <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    <input id="challenger" type="text" class="form-control" placeholder="Challenger" name="challenger"/>
+                                    </div>
+                              </div>
+                              Expiration Date<br>
+                              <div class="form-group">
+                                    <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input id="expiration" type="date" class="form-control" placeholder="Expiration Date" name="expiration"/>
                                     </div>
                               </div>
                                 <div class="control-group">
