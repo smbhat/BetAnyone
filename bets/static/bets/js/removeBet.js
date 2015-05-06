@@ -1,6 +1,8 @@
 $(document).ready(function() {
   $('.list-group-item').each(function(index, element) {
     $(element).find('.deleteButton').click(function(e) {
+      console.log('----here2');
+
       e.preventDefault();
       console.log(this.id);
       var betId = this.id.substring(5);
