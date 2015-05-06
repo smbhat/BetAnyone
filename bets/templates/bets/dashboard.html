@@ -29,6 +29,8 @@
     <!-- Custom Fonts -->
     <link href="../../static/bets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -56,7 +58,7 @@
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
-                
+
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -206,35 +208,18 @@
                         <div class="panel-heading">
                             <i class="fa fa-tasks fa-fw"></i> Bets
                             <div class="pull-right">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                        Actions
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu pull-right" role="menu">
-                                        <li><a href="#" data-toggle="modal" data-target="#createBetModal">Create Bet</a>
-                                        </li>
-                                        <li><a href="#">Delete Bet</a>
-                                        </li>
-                                    </ul>
-                                </div>
                             </div>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <table class="table">
+                            <table class="table" id="betTable">
                             <tbody>
                                 <tr>
                                     {% for b in betlist %}
-                                   <td class="list-group-item" ><a href="/betpage/{{ b.id }}" >
-                                        {{ b }}
-                                    
-                                </a> <span class="pull-right text-muted small">
-                                    <form action="">
-                                    <input type="checkbox" name="delete1" value="delete">
-                                    </form>
-                                    </span>
-                                </td> 
+                                   <td class="list-group-item" ><a href="/betpage/{{ b.id }}">
+                                        {{ b }} </a>
+                                        <button type="button" id="bets{{b.id}}">Delete</button>
+                                    </td>
                                 {% endfor %}
                                 </tr>
                              </tbody>
@@ -263,7 +248,7 @@
                     </div>
                     <!-- /.panel -->
                         <!-- /.panel-heading -->
-                       
+
                     <!-- /.panel .chat-panel -->
                 </div>
                 <!-- /.col-lg-4 -->
@@ -284,6 +269,7 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../../static/bets/bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
+    <script src="../../static/bets/js/removeBet.js"></script>
     <!-- Morris Charts JavaScript -->
     <script src="../../static/bets/bower_components/raphael/raphael-min.js"></script>
     <script src="../../static/bets/bower_components/morrisjs/morris.min.js"></script>
@@ -305,13 +291,13 @@
                      <form id="requestacallform" method="POST" name="requestacallform">
 
                                 <div class="form-group">
-                                    <div class="input-group">                               
+                                    <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                     <input id="first_name" type="text" class="form-control" placeholder="First Name" name="first_name"/>
                                     </div>
                               </div>
                                 <div class="form-group">
-                                    <div class="input-group">                               
+                                    <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                     <input id="last_name" type="text" class="form-control" placeholder="Last Name" name="last_name"/>
                                     </div>
@@ -329,13 +315,13 @@
                                     </div>
                             </div>
                              <div class="form-group">
-                                    <div class="input-group">                               
+                                    <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
                                     <input id="cardnum" type="text" class="form-control" placeholder="Card Number" name="cardnum" onchange="validateEmailAdd();"/>
                                     </div>
                               </div>
                                                            <div class="form-group">
-                                    <div class="input-group">                               
+                                    <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
                                     <input id="amt" type="text" class="form-control" placeholder="Amount" name="amt" onchange="validateEmailAdd();"/>
                                     </div>
@@ -344,7 +330,7 @@
                   </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-blue">Submit</button>
-              </div>          
+              </div>
         </div>
         </div>
       </div>
@@ -362,7 +348,7 @@
                      <form id="requestacallform" method="POST" name="requestacallform">
 
                                 <div class="form-group">
-                                    <div class="input-group">                               
+                                    <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                     <input id="netid" type="text" class="form-control" placeholder="NetID" name="netid"/>
                                     </div>
@@ -372,12 +358,12 @@
                   </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-blue">Submit</button>
-              </div>          
+              </div>
         </div>
         </div>
       </div>
     </div>
-    
+
 <div class="modal fade bannerformmodal" tabindex="-1" role="dialog" aria-labelledby="bannerformmodal" aria-hidden="true" id="availFundsModal">
 <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -388,7 +374,7 @@
                 </div>
                 <div class="modal-body">
                     $30
-                  </div>          
+                  </div>
         </div>
         </div>
       </div>
@@ -404,19 +390,19 @@
                 <div class="modal-body">
                      <form id="requestacallform" method="POST" name="requestacallform">
                                 <div class="form-group">
-                                    <div class="input-group">                               
+                                    <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                     <input id="name" type="text" class="form-control" placeholder="Name" name="name"/>
                                     </div>
                               </div>
                                 <div class="form-group">
-                                    <div class="input-group">                               
+                                    <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                     <input id="bet_amt" type="text" class="form-control" placeholder="Bet Amount" name="bet_amt"/>
                                     </div>
                               </div>
                                 <div class="control-group">
-                                    <div class="controls">                     
+                                    <div class="controls">
                                         <textarea id="description" type="text" name="description"  placeholder="Description"></textarea>
                                     </div>
                                 </div>
@@ -425,7 +411,7 @@
                   </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-blue">Submit</button>
-              </div>          
+              </div>
         </div>
         </div>
       </div>
