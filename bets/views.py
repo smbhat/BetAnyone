@@ -21,11 +21,11 @@ def dashboard(request):
 
 	allbets = Bet.objects.filter(creator = u)
 
-	context = {'netid': u.netid, 'betlist': allbets, 'friendslist': allfriends, 'balance': balance, 'committed': committed, 'availablefunds': availablefunds, 'numfriends': len(allfriends)}
+	context = {'netid': u.netid, 'betlist': allbets, 'friendslist': allfriends, 'balance': balance, 'committed': committed, 'availablefunds': availablefunds, 'numfriends': len(allfriends), 'numbets': len(allbets)}
 	return render(request, 'bets/dashboard.html', context)
 
 def betpage(request, cbet):
-	
+
 	bet = Bet.objects.get(id = cbet)
 
 	context = {'title': bet.name, 'description': bet.description, 'value': bet.value, 'creator': bet.creator.netid, 'arbitrator': bet.arbitrator.netid, 'taker': bet.taker.netid}
