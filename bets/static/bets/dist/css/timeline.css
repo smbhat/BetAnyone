@@ -39,8 +39,8 @@
     background-color:#f6f6f6;
 }
 .deleteButton:active {
-    position:relative;
-    top:1px;
+    position: absolute;
+    right: 10px;
 }
 
 .addButton {
@@ -82,8 +82,8 @@
     background-color:#f6f6f6;
 }
 .addButton:active {
-    position:relative;
-    top:1px;
+    position: absolute;
+    right: 80px;
 }
 
 .timeline {

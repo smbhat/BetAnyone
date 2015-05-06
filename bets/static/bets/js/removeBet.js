@@ -10,7 +10,7 @@ $(document).ready(function() {
         type: 'POST',
         data: JSON.stringify(data),
         contentType: 'application/json',
-        url: '../deleteBets/' + betId,
+        url: '../deletebet/' + betId,
         success: function (response) {
           console.log(response);
           $(element).remove();
