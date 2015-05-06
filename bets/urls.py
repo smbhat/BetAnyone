@@ -6,6 +6,7 @@ urlpatterns = patterns('',
 	url(r'^$', views.index, name = 'index'),
 
 	# dashboard view
-	url(r'^dashboard/$', views.dashboard, name = 'dashboard')
+	url(r'^dashboard/$', views.dashboard, name = 'dashboard'),
+	url(r'^betpage/(?P<cbet>[0-9]+)/$', views.betpage, name = 'betpage')
 
 	)

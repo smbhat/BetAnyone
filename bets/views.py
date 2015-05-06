@@ -12,7 +12,7 @@ def index(request):
 
 def dashboard(request):
 	u = User.objects.get(netid = NETID)
-	
+
 	balance = '$' + format(u.balance, '.2f')
 	committed = '$' + format(u.committed, '.2f')
 	availablefunds = '$' + format(u.balance - u.committed, '.2f')
@@ -23,3 +23,11 @@ def dashboard(request):
 
 	context = {'netid': u.netid, 'betlist': allbets, 'friendslist': allfriends, 'balance': balance, 'committed': committed, 'availablefunds': availablefunds, 'numfriends': len(allfriends)}
 	return render(request, 'bets/dashboard.html', context)
+
+def betpage(request, cbet):
+	
+	bet = Bet.objects.get(id = cbet)
+
+	context = {'title': bet.name, 'description': bet.description, 'value': bet.value, 'creator': bet.creator.netid, 'arbitrator': bet.arbitrator.netid, 'taker': bet.taker.netid}
+
+	return render(request, 'bets/betpage.html', context)
