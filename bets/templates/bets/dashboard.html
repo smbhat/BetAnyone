@@ -53,7 +53,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Bet Anyone</a>
+                <a class="navbar-brand" href="/dashboard/">Bet Anyone</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -94,7 +94,7 @@
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a href="dashboard.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="/dashboard/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                     </ul>
                 </div>
@@ -164,7 +164,7 @@
                                     <i class="fa fa-tasks fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">13</div>
+                                    <div class="huge">{{numbets}}</div>
                                     <div>Total Bets</div>
                                 </div>
                             </div>
@@ -288,24 +288,25 @@
                 <h4 class="modal-title" id="myModalLabel">Add Funds</h4>
                 </div>
                 <div class="modal-body">
-                     <form id="requestacallform" method="POST" name="requestacallform">
+                     <form id="requestacallform" method="POST" name="newpayment">
+                        {% csrf_token %}
 
                                 <div class="form-group">
                                     <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                    <input id="first_name" type="text" class="form-control" placeholder="First Name" name="first_name"/>
+                                    <input id="first_name" type="text" class="form-control" placeholder="First Name" name="card_first"/>
                                     </div>
                               </div>
                                 <div class="form-group">
                                     <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                    <input id="last_name" type="text" class="form-control" placeholder="Last Name" name="last_name"/>
+                                    <input id="last_name" type="text" class="form-control" placeholder="Last Name" name="card_last"/>
                                     </div>
                               </div>
                               <div class="form-group">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-                                        <select class="form-control" name="monthly_rental" class="selectpicker">
+                                        <select class="form-control" name="card_type" class="selectpicker">
                                             <option>Card Type</option>
                                             <option>Visa</option>
                                             <option>Mastercard</option>
@@ -317,20 +318,27 @@
                              <div class="form-group">
                                     <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-                                    <input id="cardnum" type="text" class="form-control" placeholder="Card Number" name="cardnum" onchange="validateEmailAdd();"/>
+                                    <input id="cardnum" type="text" class="form-control" placeholder="Card Number" name="card_num" onchange="validateEmailAdd();"/>
                                     </div>
                               </div>
                                                            <div class="form-group">
                                     <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-                                    <input id="amt" type="text" class="form-control" placeholder="Amount" name="amt" onchange="validateEmailAdd();"/>
+                                    <input id="amt" type="text" class="form-control" placeholder="Amount" name="card_amt" onchange="validateEmailAdd();"/>
                                     </div>
                               </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-blue">Submit</button>
+                                </div>   
                             </form>
                   </div>
+<<<<<<< HEAD
               <div class="modal-footer">
                 <button type="button" class="btn btn-blue">Submit</button>
               </div>
+=======
+       
+>>>>>>> bf479616b9447a153abd0afeaeeb317fca6642df
         </div>
         </div>
       </div>
@@ -345,20 +353,27 @@
                 <h4 class="modal-title" id="myModalLabel">Add Friend</h4>
                 </div>
                 <div class="modal-body">
-                     <form id="requestacallform" method="POST" name="requestacallform">
+                     <form id="requestacallform" method="POST" name="newfriend" action="/dashboard/">
+                        {% csrf_token %}
 
                                 <div class="form-group">
                                     <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                     <input id="netid" type="text" class="form-control" placeholder="NetID" name="netid"/>
                                     </div>
-                              </div>
-
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-blue">Submit</button>
+                                </div>  
                             </form>
                   </div>
+<<<<<<< HEAD
               <div class="modal-footer">
                 <button type="button" class="btn btn-blue">Submit</button>
               </div>
+=======
+        
+>>>>>>> bf479616b9447a153abd0afeaeeb317fca6642df
         </div>
         </div>
       </div>
@@ -373,8 +388,13 @@
                 <h4 class="modal-title" id="myModalLabel">Available Funds</h4>
                 </div>
                 <div class="modal-body">
+<<<<<<< HEAD
                     $30
                   </div>
+=======
+                    {{availablefunds}}
+                  </div>          
+>>>>>>> bf479616b9447a153abd0afeaeeb317fca6642df
         </div>
         </div>
       </div>
@@ -388,11 +408,13 @@
                 <h4 class="modal-title" id="myModalLabel">New Bet</h4>
                 </div>
                 <div class="modal-body">
-                     <form id="requestacallform" method="POST" name="requestacallform">
+
+                     <form id="requestacallform" method="POST" name="newbet" action="/dashboard/">
+                        {% csrf_token %}
                                 <div class="form-group">
                                     <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                    <input id="name" type="text" class="form-control" placeholder="Name" name="name"/>
+                                    <input id="name" type="text" class="form-control" placeholder="Title" name="bet_name"/>
                                     </div>
                               </div>
                                 <div class="form-group">
@@ -402,16 +424,28 @@
                                     </div>
                               </div>
                                 <div class="control-group">
+<<<<<<< HEAD
                                     <div class="controls">
                                         <textarea id="description" type="text" name="description"  placeholder="Description"></textarea>
+=======
+                                    <div class="controls">                     
+                                        <textarea id="description" type="text" name="bet_desc"  placeholder="Description"></textarea>
+>>>>>>> bf479616b9447a153abd0afeaeeb317fca6642df
                                     </div>
                                 </div>
-
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-blue">Submit</button>
+                                </div>
                             </form>
+                                   
                   </div>
+<<<<<<< HEAD
               <div class="modal-footer">
                 <button type="button" class="btn btn-blue">Submit</button>
               </div>
+=======
+                     
+>>>>>>> bf479616b9447a153abd0afeaeeb317fca6642df
         </div>
         </div>
       </div>

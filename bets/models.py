@@ -23,7 +23,8 @@ class User(models.Model):
 			self.balance -= amt
 			self.committed += amt
 			return True
-	
+
+	# Add friend with NetID newid to friendlist.
 	def addFriend(self, newid):
 		# netid should not contain a '%'
 		if newid.find('%') != -1:
@@ -34,6 +35,14 @@ class User(models.Model):
 				self.friendlist += '%'
 			self.friendlist += newid
 			return True
+
+	# Check whether User already has friend with NetID netid.
+	def isFriend(self, netid):
+		allfriends = self.friendlist.split('%')
+		for f in allfriends:
+			if f == netid:
+				return True
+		return False
 
 	def __str__(self):
 		return self.netid
