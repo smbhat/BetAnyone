@@ -1,6 +1,6 @@
 $(document).ready(function() {
   $('.list-group-item').each(function(index, element) {
-    $(element).find('.deleteButton').click(function(e) {
+    $(element).find('.addButton').click(function(e) {
       e.preventDefault();
       console.log(this.id);
       var betId = this.id.substring(5);
@@ -10,7 +10,7 @@ $(document).ready(function() {
         type: 'POST',
         data: JSON.stringify(data),
         contentType: 'application/json',
-        url: '../deleteBets/' + betId,
+        url: '../addBets/' + betId,
         success: function (response) {
           console.log(response);
           $(element).remove();

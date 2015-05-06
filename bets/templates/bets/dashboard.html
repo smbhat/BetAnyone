@@ -218,7 +218,8 @@
                                     {% for b in betlist %}
                                    <td class="list-group-item" ><a href="/betpage/{{ b.id }}">
                                         {{ b }} </a>
-                                        <button type="button" id="bets{{b.id}}">Delete</button>
+                                        <button type="button" class="addButton" id="abets{{b.id}}">Add</button>
+                                        <button type="button" class="deleteButton" id="dbets{{b.id}}">Delete</button>
                                     </td>
                                 {% endfor %}
                                 </tr>
@@ -270,6 +271,7 @@
     <script src="../../static/bets/bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
     <script src="../../static/bets/js/removeBet.js"></script>
+    <script src="../../static/bets/js/addBet.js"></script>
     <!-- Morris Charts JavaScript -->
     <script src="../../static/bets/bower_components/raphael/raphael-min.js"></script>
     <script src="../../static/bets/bower_components/morrisjs/morris.min.js"></script>
