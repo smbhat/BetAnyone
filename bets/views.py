@@ -1,12 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
-from bets.models import Bet, User
+from bets.models import Bet, Player
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
-
-
-NETID = 'smbhat'
 
 # Create your views here.
 def index(request):
@@ -24,7 +21,11 @@ def verifiedNumber(num):
 
 @login_required
 def dashboard(request):
-	u = User.objects.get(netid = NETID)
+	print '----NETID----'
+	print request.user.username
+	print '----NETID----'
+
+	u = Player.objects.get(netid = request.user.username)
 
 
 	if request.method == 'POST':
@@ -37,10 +38,15 @@ def dashboard(request):
 
 			# if challenger field is filled out
 			if c != '':
+				print 'trace0'
 				try:
-					challenged = User.objects.get(netid=c)
+					challenged = Player.objects.get(netid=c)
+					print 'trace1'
+					print amt
 					if verifiedNumber(amt):
-						b = Bet(name = n, value = float(amt), description = desc, category = '', creator = u, taker = challenged, expdate = date)
+						print 'this is where the error occurs'
+						# b = Bet(name = n, value = float(amt), description = desc, category = '', creator = u, taker = challenged, expdate = date)
+						print 'did not make it this far?'
 						b.save()
 
 				except ObjectDoesNotExist:
@@ -48,6 +54,7 @@ def dashboard(request):
 			# if challenger field is left empty
 			else:
 				if verifiedNumber(amt):
+					'does it get here?'
 					b = Bet(name = n, value = float(amt), description = desc, category = '', creator = u, expdate = date)
 					b.save()
 					print 'New bet made.'
@@ -100,16 +107,12 @@ def betpage(request, cbet):
 @login_required
 def deletebet(request, cbet):
 
-	print '----here----'
-	print 'inside deleteBets'
-	print '----here----'
-
 	bet = get_object_or_404(Bet, id = cbet)
 	bet.delete()
 	print "Successfully deleted bet: ",
 	print bet
 
-	u = User.objects.get(netid = NETID)
+	u = Player.objects.get(netid = request.user.username)
 
 
 	if request.method == 'POST':

@@ -2,7 +2,7 @@ from django.db import models
 import datetime
 
 # Create your models here.
-class User(models.Model):
+class Player(models.Model):
 	netid = models.CharField(max_length = 50)
 	balance = models.FloatField(default = 0)
 	committed = models.FloatField(default = 0)
@@ -11,7 +11,7 @@ class User(models.Model):
 	def getNetID(self):
 		return self.netid
 
-	# add amt to User's current balance
+	# add amt to Player's current balance
 	def addBalance(self, amt):
 		self.balance += amt
 
@@ -37,7 +37,7 @@ class User(models.Model):
 			self.friendlist += newid
 			return True
 
-	# Check whether User already has friend with NetID netid.
+	# Check whether Player already has friend with NetID netid.
 	def isFriend(self, netid):
 		allfriends = self.friendlist.split('%')
 		for f in allfriends:
@@ -56,9 +56,9 @@ class Bet(models.Model):
 	status = models.BooleanField(default = False) # True if taken, False if open
 	expdate = models.DateField(default = datetime.date.today)
 
-	creator = models.ForeignKey(User, related_name = 'creator')
-	taker = models.ForeignKey(User, related_name = 'taker', default = 0)
-	arbitrator = models.ForeignKey(User, related_name = 'arbitrator', default = 0)
+	creator = models.ForeignKey(Player, related_name = 'creator')
+	taker = models.ForeignKey(Player, related_name = 'taker', default = 0)
+	arbitrator = models.ForeignKey(Player, related_name = 'arbitrator', default = 0)
 
 	def __str__(self):
 		return self.name
