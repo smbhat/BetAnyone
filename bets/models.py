@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 # Create your models here.
 class User(models.Model):
@@ -53,6 +54,7 @@ class Bet(models.Model):
 	value = models.IntegerField(default = 0)
 	category = models.CharField(max_length = 50)
 	status = models.BooleanField(default = False) # True if taken, False if open
+	expdate = models.DateField(default = datetime.date.today)
 
 	creator = models.ForeignKey(User, related_name = 'creator')
 	taker = models.ForeignKey(User, related_name = 'taker', default = 0)

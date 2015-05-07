@@ -19,4 +19,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'', include('bets.urls', namespace = 'bets')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^accounts/login/', 'django_cas_ng.views.login'), 
+    url(r'logout/$', 'django_cas_ng.views.logout'),
 ]

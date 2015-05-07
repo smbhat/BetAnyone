@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from bets.models import Bet, User
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
+
 
 NETID = 'smbhat'
 
@@ -9,6 +12,7 @@ NETID = 'smbhat'
 def index(request):
 	return render(request, 'bets/index.html')
 
+@login_required
 # Helper function to verify whether the input string represents a float. Return
 # True if it does represent a float, False otherwise.
 def verifiedNumber(num):
@@ -18,6 +22,7 @@ def verifiedNumber(num):
 	except ValueError:
 		return False
 
+@login_required
 def dashboard(request):
 	u = User.objects.get(netid = NETID)
 
@@ -26,13 +31,26 @@ def dashboard(request):
 		if 'bet_name' in request.POST:
 			n = request.POST['bet_name']
 			amt = request.POST['bet_amt']
-			d = request.POST['bet_desc']
-			if verifiedNumber(amt):
-				b = Bet(name = n, value = float(amt), description = d, category = '', creator = u)
-				b.save()
-				print 'New bet made.'
+			desc = request.POST['bet_desc']
+			c = request.POST['bet_challenge']
+			date = request.POST['exp_date']
+
+			# if challenger field is filled out
+			if c != '':
+				try:
+					challenged = User.objects.get(netid=c)
+					if verifiedNumber(amt):
+						b = Bet(name = n, value = float(amt), description = desc, category = '', creator = u, taker = challenged, expdate = date)
+						b.save()
+
+				except ObjectDoesNotExist:
+					print 'invalid netid'
+			# if challenger field is left empty
 			else:
-				print 'Not a valid amount.'
+				if verifiedNumber(amt):
+					b = Bet(name = n, value = float(amt), description = desc, category = '', creator = u, expdate = date)
+					b.save()
+					print 'New bet made.'
 
 		elif 'netid' in request.POST:
 			netid = request.POST['netid']
@@ -63,6 +81,7 @@ def dashboard(request):
 	context = {'netid': u.netid, 'betlist': allbets, 'friendslist': allfriends, 'balance': balance, 'committed': committed, 'availablefunds': availablefunds, 'numfriends': len(allfriends), 'numbets': len(allbets)}
 	return render(request, 'bets/dashboard.html', context)
 
+@login_required
 def betpage(request, cbet):
 
 
@@ -78,6 +97,7 @@ def betpage(request, cbet):
 
 	return render(request, 'bets/betpage.html', context)
 
+@login_required
 def deletebet(request, cbet):
 
 	print '----here----'
