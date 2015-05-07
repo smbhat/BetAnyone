@@ -1,5 +1,3 @@
-
-
 .deleteButton {
     -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
     -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -41,6 +39,17 @@
 .deleteButton:active {
     position: absolute;
     right: 10px;
+}
+
+.deleteButton2 {
+    position: absolute;
+    right: 10px;
+    bottom: 15px;
+    width: 15px;
+    height: 15px;
+    background-color:white;
+    color: white;
+    border-radius: 2px;
 }
 
 .addButton {
