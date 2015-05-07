@@ -211,13 +211,13 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <table class="table" id="betTable">
+                            <table class="table">
                             <tbody>
                                 <tr>
                                     {% for b in betlist %}
                                    <td class="list-group-item" ><a href="/betpage/{{ b.id }}">
                                         {{ b }} </a>
-                                        <button type="button" class="addButton" id="abets{{b.id}}">Add</button>
+                                        <button type="button" class="addButton" id="abets{{b.id}}">Accept</button>
                                         <button type="button" class="deleteButton" id="dbets{{b.id}}">Delete</button>
                                     </td>
                                 {% endfor %}
@@ -237,11 +237,16 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div class="list-group">
+                            <table class="table">
                                 {% for p in friendslist %}
-                                <a href="#" class="list-group-item" data-toggle="modal" data-target="#createBetModal">
+                                    <td class="list-group-item" ><a href="#">
+                                        {{ p }} </a>
+                                        <button style='background: transparent; border: 0'><img src='../../static/bets/dist/img/delete.png' class='deleteButton2' id="user{{p}}"></button>
+                                    </td>
+                                <!-- <a href="#" class="list-group-item" data-toggle="modal" data-target="#createBetModal">
                                    {{p}}
-                                </a>
+                                </a> -->
+
                                 {% endfor %}
                         </div>
                         <!-- /.panel-body -->

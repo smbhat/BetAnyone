@@ -31,12 +31,33 @@ $(document).ready(function() {
       console.log(this.id);
       var betId = this.id.substring(5);
       console.log(betId);
-      var data = {betId: betId};
       $.ajax({
         type: 'POST',
         data: {betId: betId, csrfmiddlewaretoken: '{{ csrf_token }}'},
         contentType: 'application/json',
         url: '/deletebet/' + betId + '/',
+        success: function (response) {
+          console.log(response);
+          $(element).remove();
+        },
+        error: function (response) {
+        }
+      });
+    });
+  });
+});
+
+$(document).ready(function() {
+  $('.list-group-item').each(function(index, element) {
+    $(element).find('.deleteButton2').click(function(e) {
+      e.preventDefault();
+      var user = this.id.substring(4);
+      console.log(user);
+      $.ajax({
+        type: 'POST',
+        data: {User: user, csrfmiddlewaretoken: '{{ csrf_token }}'},
+        contentType: 'application/json',
+        url: '/deleteuser/' + user + '/',
         success: function (response) {
           console.log(response);
           $(element).remove();
