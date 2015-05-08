@@ -36,7 +36,30 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <script>
+        function validateNewBet() {
+            var x = document.forms["newbet"]["bet_amt"].value;
+            if (isNaN(x) || x == null || x == "") {
+                alert("Bet Amount must be a number and must be filled out");
+                return false;
+            }
+            var x = document.forms["newbet"]["bet_name"].value;
+            if (x == null || x == "") {
+                alert("Bet Name must be filled out");
+                return false;
+            }
+            var x = document.forms["newbet"]["expiration"].value;
+            if (x == null || x == "") {
+                alert("Expiration Date must be filled out");
+                return false;
+            }
+            var x = document.forms["newbet"]["bet_desc"].value;
+            if (x == null || x == "") {
+                alert("Description must be filled out");
+                return false;
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -396,7 +419,7 @@
                 </div>
                 <div class="modal-body">
 
-                     <form id="requestacallform" method="POST" name="newbet" action="/dashboard/">
+                     <form id="requestacallform" method="POST" name="newbet" onsubmit = "return validateNewBet()" action="/dashboard/">
                         {% csrf_token %}
                                 <div class="form-group">
                                     <div class="input-group">
