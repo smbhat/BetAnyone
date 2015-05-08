@@ -13,7 +13,31 @@ $(document).ready(function() {
         url: '/addbet/' + betId + '/',
         success: function (response) {
           console.log(response);
-          $(element).remove();
+          $(element).find('.addButton').remove();
+        },
+        error: function (response) {
+        }
+      });
+    });
+  });
+});
+
+$(document).ready(function() {
+  $('.list-group-item').each(function(index, element) {
+    $(element).find('.arbitrateButton').click(function(e) {
+      e.preventDefault();
+      console.log(this.id);
+      var betId = this.id.substring(6);
+      console.log(betId);
+      var data = { betId: betId } ;
+      $.ajax({
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: '/arbitrator/' + betId + '/',
+        success: function (response) {
+          console.log(response);
+          $(element).find('.arbitratorButton').remove();
         },
         error: function (response) {
         }

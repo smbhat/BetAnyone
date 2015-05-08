@@ -245,17 +245,41 @@
                                     {% for b in betlist %}
                                    <td class="list-group-item" ><a href="/betpage/{{ b.id }}">
                                         {{ b }} </a>
+                                        {% if b.arbitrator.netid == netid %}
+                                            {% if not b.status %}
+                                        <button type="button" class="arbitrateButton" id="arbets{{b.id}}">Arbitrate</button>
+                                            {% endif %}
+                                        {% endif %}
+
                                         {% if b.taker.netid == netid  %}
-                                        <button type="button" class="addButton" id="abets{{b.id}}">Accept</button>
+                                            {% if not b.status %}
+                                                <button type="button" class="addButton" id="abets{{b.id}}">Accept</button>
+                                            {% endif %}
                                         {% endif %}
                                         {% if not b.status %}
                                         <button type="button" class="deleteButton" id="dbets{{b.id}}">Delete</button>
                                         {% endif %}
+
                                     </td>
                                 {% endfor %}
                                 </tr>
                              </tbody>
                              </table>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-tasks fa-fw"></i> Scoreboard
+                            <div class="pull-right">
+                            </div>
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            8 Wins - 5 Losses
                         </div>
                         <!-- /.panel-body -->
                     </div>
