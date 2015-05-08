@@ -9,7 +9,6 @@ from django.contrib.auth.decorators import login_required
 def index(request):
 	return render(request, 'bets/index.html')
 
-@login_required
 # Helper function to verify whether the input string represents a float. Return
 # True if it does represent a float, False otherwise.
 def verifiedNumber(num):
@@ -25,7 +24,7 @@ def dashboard(request):
 	print request.user.username
 	print '----NETID----'
 
-	u = Player.objects.get(netid = request.user.username)
+	u = get_object_or_404(Player, netid = request.user.username)
 
 
 	if request.method == 'POST':
@@ -38,15 +37,10 @@ def dashboard(request):
 
 			# if challenger field is filled out
 			if c != '':
-				print 'trace0'
 				try:
-					challenged = Player.objects.get(netid=c)
-					print 'trace1'
-					print amt
+					challenged = get_object_or_404(Player, netid=c)
 					if verifiedNumber(amt):
-						print 'this is where the error occurs'
-						# b = Bet(name = n, value = float(amt), description = desc, category = '', creator = u, taker = challenged, expdate = date)
-						print 'did not make it this far?'
+						b = Bet(name = n, value = float(amt), description = desc, category = '', creator = u, taker = challenged, expdate = date)
 						b.save()
 
 				except ObjectDoesNotExist:
@@ -54,7 +48,6 @@ def dashboard(request):
 			# if challenger field is left empty
 			else:
 				if verifiedNumber(amt):
-					'does it get here?'
 					b = Bet(name = n, value = float(amt), description = desc, category = '', creator = u, expdate = date)
 					b.save()
 					print 'New bet made.'
@@ -112,38 +105,7 @@ def deletebet(request, cbet):
 	print "Successfully deleted bet: ",
 	print bet
 
-	u = Player.objects.get(netid = request.user.username)
-
-
-	if request.method == 'POST':
-		if 'bet_name' in request.POST:
-			n = request.POST['bet_name']
-			amt = request.POST['bet_amt']
-			d = request.POST['bet_desc']
-			if verifiedNumber(amt):
-				b = Bet(name = n, value = float(amt), description = d, category = '', creator = u)
-				b.save()
-				print 'New bet made.'
-			else:
-				print 'Not a valid amount.'
-
-		elif 'netid' in request.POST:
-			netid = request.POST['netid']
-			if u.isFriend(netid) == False:
-				u.addFriend(netid)
-				u.save()
-				print 'New friend added.'
-			else:
-				print 'Already friends.'
-		
-		elif 'card_amt' in request.POST:
-			paymentamt = request.POST['card_amt']
-			if verifiedNumber(paymentamt):
-				u.addBalance(float(paymentamt))
-				u.save()
-				print 'New payment made.'
-			else:
-				print 'Not a valid amount.'
+	u = get_object_or_404(Player, netid = request.user.username)
 
 	balance = '$' + format(u.balance, '.2f')
 	committed = '$' + format(u.committed, '.2f')
@@ -153,9 +115,35 @@ def deletebet(request, cbet):
 
 	allbets = Bet.objects.filter(creator = u)
 
+	context = {'netid': u.netid, 'betlist': allbets, 'friendslist': allfriends, 'balance': balance, 'committed': committed, 'availablefunds': availablefunds, 'numfriends': len(allfriends), 'numbets': len(allbets)}
+	return render(request, 'bets/dashboard.html', context)
+
+def deletefriend(request, cfriend):
+	u = get_object_or_404(Player, netid = request.user.username)
+
+	allfriends = u.friendlist.split('%')
+
+	newlist = []
+
+	for f in allfriends:
+		if f != cfriend:
+			newlist.append(f)
+
+	u.friendlist = '%'.join(newlist)
+	u.save()
+
+	balance = '$' + format(u.balance, '.2f')
+	committed = '$' + format(u.committed, '.2f')
+	availablefunds = '$' + format(u.balance - u.committed, '.2f')
+
+	allfriends = u.friendlist.split('%') # list of friends
+
+	allbets = Bet.objects.filter(creator = u)
 
 	context = {'netid': u.netid, 'betlist': allbets, 'friendslist': allfriends, 'balance': balance, 'committed': committed, 'availablefunds': availablefunds, 'numfriends': len(allfriends), 'numbets': len(allbets)}
 	return render(request, 'bets/dashboard.html', context)
+
+
 
 
 

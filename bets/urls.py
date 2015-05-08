@@ -9,4 +9,5 @@ urlpatterns = patterns('',
 	url(r'^dashboard/$', views.dashboard, name = 'dashboard'),
 	url(r'^betpage/(?P<cbet>[0-9]+)/$', views.betpage, name = 'betpage'),
 	url(r'^deletebet/(?P<cbet>[0-9]+)/$', views.deletebet, name = 'deletebet'),
+	url(r'^deleteuser/(?P<cfriend>[A-Za-z]+)/$', views.deletefriend, name = 'deletefriend'),
 	)
