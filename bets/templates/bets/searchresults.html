@@ -71,12 +71,14 @@
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
                             <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">
+                                <form action="/search/" method="get" class="form-inline">
+                                    <input type="text" class="form-control" placeholder="Search..." name="q">
+                                    <span class="input-group-btn">
+                                    <!-- <button class="btn btn-default" type="submit">
                                         <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
+                                    </button> -->
+                                </form>
+                            </span>
                             </div>
                             <!-- /input-group -->
                         </li>
@@ -102,21 +104,18 @@
                         <h1 class="page-header">Search Results</h1>
                         <div class="panel panel-default">
                         <div class="panel-heading">
-                            Results for Search Term "All Bets"
+                            Results for Search Term "{{searchquery}}"
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="list-group">
+                                {% for b in betlist %}
                                 <a href="#" class="list-group-item">
-                                    Princeton Weather
-                                    <span class="pull-right text-muted small"><em>Description about Bet</em>
+                                    {{b}}
+                                    <span class="pull-right text-muted small"><em>{{b.description}}</em>
                                     </span>
                                 </a>
-                                <a href="#" class="list-group-item">
-                                    Princeton Sports
-                                    <span class="pull-right text-muted small"><em>Description</em>
-                                    </span>
-                                </a>
+                                {% endfor %}
                         </div>
                         <!-- /.panel-body -->
                     </div>

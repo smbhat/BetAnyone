@@ -72,9 +72,9 @@ def dashboard(request):
 			else:
 				print 'Not a valid amount.'
 
-	balance = '$' + format(u.balance, '.2f')
-	committed = '$' + format(u.committed, '.2f')
-	availablefunds = '$' + format(u.balance - u.committed, '.2f')
+	balance = u"\u00A3 " + format(u.balance, '.2f')
+	committed = u"\u00A3 " + format(u.committed, '.2f')
+	availablefunds = u"\u00A3 " + format(u.balance - u.committed, '.2f')
 
 	allfriends = u.friendlist.split('%') # list of friends
 
@@ -112,12 +112,20 @@ def addbet(request, cbet):
 	bet.status = True
 	bet.save()
 
+	# commit money of both parties
+	u.commitMoney(bet.value)
+	c = bet.creator
+	c.commitMoney(bet.value)
+
+	u.save()
+	c.save()
+
 	print 'Bet accepted: ',
 	print bet
 
-	balance = '$' + format(u.balance, '.2f')
-	committed = '$' + format(u.committed, '.2f')
-	availablefunds = '$' + format(u.balance - u.committed, '.2f')
+	balance = u"\u00A3 " + format(u.balance, '.2f')
+	committed = u"\u00A3 " + format(u.committed, '.2f')
+	availablefunds = u"\u00A3 " + format(u.balance - u.committed, '.2f')
 
 	allfriends = u.friendlist.split('%') # list of friends
 
@@ -144,9 +152,9 @@ def deletebet(request, cbet):
 
 	u = get_object_or_404(Player, netid = request.user.username)
 
-	balance = '$' + format(u.balance, '.2f')
-	committed = '$' + format(u.committed, '.2f')
-	availablefunds = '$' + format(u.balance - u.committed, '.2f')
+	balance = u"\u00A3 " + format(u.balance, '.2f')
+	committed = u"\u00A3 " + format(u.committed, '.2f')
+	availablefunds = u"\u00A3 " + format(u.balance - u.committed, '.2f')
 
 	allfriends = u.friendlist.split('%') # list of friends
 
@@ -173,9 +181,9 @@ def deletefriend(request, cfriend):
 	u.friendlist = '%'.join(newlist)
 	u.save()
 
-	balance = '$' + format(u.balance, '.2f')
-	committed = '$' + format(u.committed, '.2f')
-	availablefunds = '$' + format(u.balance - u.committed, '.2f')
+	balance = u"\u00A3 " + format(u.balance, '.2f')
+	committed = u"\u00A3 " + format(u.committed, '.2f')
+	availablefunds = u"\u00A3 " + format(u.balance - u.committed, '.2f')
 
 	allfriends = u.friendlist.split('%') # list of friends
 
@@ -187,11 +195,31 @@ def deletefriend(request, cfriend):
 	context = {'netid': u.netid, 'betlist': allbets, 'friendslist': allfriends, 'balance': balance, 'committed': committed, 'availablefunds': availablefunds, 'numfriends': len(allfriends), 'numbets': len(allbets)}
 	return render(request, 'bets/dashboard.html', context)
 
+@login_required
+def search(request):
+	print '---Search Request---'
+	print request.GET
+	print request.GET['q']
 
+	if 'q' in request.GET and request.GET['q']:
+		q = request.GET['q']
+
+		print q
+
+		betlist = Bet.objects.filter(name__icontains = q)
+		context = {'betlist': betlist, 'searchquery': q}
+
+		return render(request, 'bets/searchresults.html', context)
+	return HttpResponse(message)
 
 # STATIONARY PAGES
+@login_required
 def ncommerce(request):
 	return render(request, 'bets/ncommerce.html')
+
+@login_required
+def betpagencommerce(request):
+	return render(request, 'bets/betpagencommerce.html')
 
 
 
