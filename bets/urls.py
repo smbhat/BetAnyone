@@ -12,4 +12,7 @@ urlpatterns = patterns('',
 	url(r'^deleteuser/(?P<cfriend>[A-Za-z]+)/$', views.deletefriend, name = 'deletefriend'),
 	url(r'^addbet/(?P<cbet>[0-9]+)/$', views.addbet, name = 'addbet'),
 	url(r'^ncommerce/$', views.ncommerce, name = 'ncommerce'),
+	url(r'^betpagencommerce/$', views.betpagencommerce, name = 'betpagencommerce'),
+	url(r'^search/$', views.search),
+
 	)

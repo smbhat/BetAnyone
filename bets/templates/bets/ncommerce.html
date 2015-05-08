@@ -74,12 +74,14 @@
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
                             <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">
+                                <form action="/search/" method="get" class="form-inline">
+                                    <input type="text" class="form-control" placeholder="Search..." name="q">
+                                    <span class="input-group-btn">
+                                    <!-- <button class="btn btn-default" type="submit">
                                         <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
+                                    </button> -->
+                                </form>
+                            </span>
                             </div>
                             <!-- /input-group -->
                         </li>
