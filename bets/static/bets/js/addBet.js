@@ -13,7 +13,7 @@ $(document).ready(function() {
         url: '/addbet/' + betId + '/',
         success: function (response) {
           console.log(response);
-          $(element).remove();
+          $(element).find('.addButton').remove();
         },
         error: function (response) {
         }
