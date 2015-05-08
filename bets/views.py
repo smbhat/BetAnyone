@@ -5,6 +5,8 @@ from bets.models import Bet, Player
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 
+from itertools import chain
+
 # Create your views here.
 def index(request):
 	return render(request, 'bets/index.html')
@@ -76,7 +78,11 @@ def dashboard(request):
 
 	allfriends = u.friendlist.split('%') # list of friends
 
-	allbets = Bet.objects.filter(creator = u)
+	betscreated = Bet.objects.filter(creator = u)
+	betstaken = Bet.objects.filter(taker = u)
+	betsarbitrated = Bet.objects.filter(arbitrator = u)
+
+	allbets = list(chain(betscreated, betstaken, betsarbitrated))
 
 	context = {'netid': u.netid, 'betlist': allbets, 'friendslist': allfriends, 'balance': balance, 'committed': committed, 'availablefunds': availablefunds, 'numfriends': len(allfriends), 'numbets': len(allbets)}
 	return render(request, 'bets/dashboard.html', context)

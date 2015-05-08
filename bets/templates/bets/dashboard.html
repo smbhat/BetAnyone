@@ -240,7 +240,9 @@
                                     {% for b in betlist %}
                                    <td class="list-group-item" ><a href="/betpage/{{ b.id }}">
                                         {{ b }} </a>
+                                        {% if b.arbitrator.netid == netid  %}
                                         <button type="button" class="addButton" id="abets{{b.id}}">Accept</button>
+                                        {% endif %}
                                         <button type="button" class="deleteButton" id="dbets{{b.id}}">Delete</button>
                                     </td>
                                 {% endfor %}
