@@ -132,6 +132,7 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
+            <marquee behavior="scroll" direction="left" scrollamount = "12"><h4><font color="chocolate">Princeton Weather 05/09/2015 &nbsp|&nbsp Princeton Women's Waterpolo &nbsp|&nbsp Princeton Men's Track 400m &nbsp|&nbsp Alain Kornhauser Shoe Selection 05/11/2015 &nbsp|&nbsp JC Arenas ORF 401 Attendance 05/08/2015</font><h4> </marquee>
             <!-- /.row -->
             <div class="row">
                 <div class="col-lg-3 col-md-6">
@@ -240,7 +241,9 @@
                                     {% for b in betlist %}
                                    <td class="list-group-item" ><a href="/betpage/{{ b.id }}">
                                         {{ b }} </a>
+                                        {% if b.arbitrator.netid == netid  %}
                                         <button type="button" class="addButton" id="abets{{b.id}}">Accept</button>
+                                        {% endif %}
                                         <button type="button" class="deleteButton" id="dbets{{b.id}}">Delete</button>
                                     </td>
                                 {% endfor %}
