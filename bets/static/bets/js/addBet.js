@@ -34,7 +34,7 @@ $(document).ready(function() {
         type: 'POST',
         data: JSON.stringify(data),
         contentType: 'application/json',
-        url: '/arbitrator/' + betId + '/',
+        url: '/betpage/' + betId + '/',
         success: function (response) {
           console.log(response);
           $(element).find('.arbitratorButton').remove();

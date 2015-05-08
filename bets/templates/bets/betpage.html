@@ -104,42 +104,58 @@
                         <h1 class="page-header">Bet Page</h1>
                         <table class="table">
     <tbody>
-     <tr>
+    <tr>
         <th>Title</th>
         <td align="left">{{title}}</td>
-      </tr>
-      <th>Bet Amount</th>
+    </tr>
+    <tr>
+        <th>Bet Amount</th>
         <td align="left">{{value}}</td>
-      </tr>
-      <th>Description</th>
+    </tr>
+    <tr>
+        <th>Description</th>
         <td align="left">{{description}}</td>
-      </tr>
-      <tr class="success">
+    </tr>
+    <tr>
+        <th>Expiry Date</th>
+        <td align="left">{{expirydate}}</td>
+    </tr>
+    <tr class="success">
         <th>Creator</th>
         <td align="left">{{creator}}</td>
-      </tr>
-      <tr class="danger">
+    </tr>
+    <tr class="danger">
         <th>Taker</th>
         <td align="left">{{taker}}</td>
-      </tr>
-      <tr class="info">
+    </tr>
+    <tr class="info">
         <th>Arbitrator</th>
         <td align="left">{{arbitrator}}</td>
-      </tr>
+    </tr>
     </tbody>
   </table>
+  {% if taker = netid %}
   <button type="button" class="btn btn-success">Take Bet</button> <br><br>
+  {% endif %}
+  {% if arbitrator = netid %}
+  <p>You have been selected to arbitrate this bet.</p>
+  {% endif %}
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
                 <!-- /.row -->
-                <h4> For the Arbitrator to Decide: Who won the bet? </h4>
-            <form action="">
-                <input type="radio" name="winner" value="creator"> &nbsp {{creator}}<br>
-                <input type="radio" name="winner" value="taker"> &nbsp {{taker}} <br><br>
-                <input type="submit" class="btn btn-primary" value="Submit">
-            </form>
-            </div>
+                {% if status %}
+                    {% if arbitrator = netid %}
+                        <h4> For the Arbitrator to Decide: Who won the bet? </h4>
+                    <form action="/arbitratedbet/{{betid}}/" method="POST">
+                        {% csrf_token %}
+                        <input type="radio" name="creator" value="{{creator}}"> &nbsp {{creator}}<br>
+                        <input type="radio" name="taker" value="{{taker}}"> &nbsp {{taker}} <br><br>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                    {% endif %}
+                    </div>
+                {% endif %}
             <!-- /.container-fluid -->
         </div>
         <!-- /#page-wrapper -->

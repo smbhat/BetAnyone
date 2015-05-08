@@ -14,5 +14,7 @@ urlpatterns = patterns('',
 	url(r'^ncommerce/$', views.ncommerce, name = 'ncommerce'),
 	url(r'^betpagencommerce/$', views.betpagencommerce, name = 'betpagencommerce'),
 	url(r'^search/$', views.search),
+	url(r'^arbirate/(?P<cbet>[0-9]+)/$', views.arbitrate, name = 'arbitrate'),
+	url(r'^arbitratedbet/(?P<cbet>[0-9]+)/$', views.arbitratedbet, name = 'arbitratedbet')
 
 	)

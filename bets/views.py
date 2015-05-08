@@ -24,7 +24,6 @@ def verifiedNumber(num):
 def dashboard(request):
 	print '----NETID----'
 	print request.user.username
-	print '----NETID----'
 
 	u = get_object_or_404(Player, netid = request.user.username)
 
@@ -36,13 +35,15 @@ def dashboard(request):
 			desc = request.POST['bet_desc']
 			c = request.POST['bet_challenge']
 			date = request.POST['exp_date']
+			arb = request.POST['bet_arbitrate']
 
 			# if challenger field is filled out
 			if c != '':
 				try:
 					challenged = get_object_or_404(Player, netid=c)
+					arbitrator = get_object_or_404(Player, netid=arb)
 					if verifiedNumber(amt):
-						b = Bet(name = n, value = float(amt), description = desc, category = '', creator = u, taker = challenged, expdate = date)
+						b = Bet(name = n, value = float(amt), description = desc, category = '', creator = u, taker = challenged, arbitrator = arbitrator, expdate = date)
 						b.save()
 
 				except ObjectDoesNotExist:
@@ -83,23 +84,31 @@ def dashboard(request):
 	betsarbitrated = Bet.objects.filter(arbitrator = u)
 
 	allbets = list(chain(betscreated, betstaken, betsarbitrated))
+	engagedbets = list(chain(betscreated, betstaken))
 
-	context = {'netid': u.netid, 'betlist': allbets, 'friendslist': allfriends, 'balance': balance, 'committed': committed, 'availablefunds': availablefunds, 'numfriends': len(allfriends), 'numbets': len(allbets)}
+	context = {'netid': u.netid, 'betlist': allbets, 'friendslist': allfriends, 'balance': balance, 'committed': committed, 'availablefunds': availablefunds, 'numfriends': len(allfriends), 'numbets': len(engagedbets)}
 	return render(request, 'bets/dashboard.html', context)
 
 @login_required
 def betpage(request, cbet):
 
-
 	bet = get_object_or_404(Bet, id = cbet)
-	arbitrator = 'Not Yet Taken'
-	taker = 'Not Yet Taken'
-	if bet.status == True:
-		arbitrator = bet.arbitrator.netid
-		taker = bet.taker.netid
+
+	try:
+		a = bet.arbitrator
+		arbitrator = a.netid
+	except ObjectDoesNotExist:
+		arbitrator = 'Not Yet Taken'
+
+	try:
+		t = bet.taker
+		taker = t.netid
+	except ObjectDoesNotExist:
+		taker = 'Not Yet Taken'
 
 
-	context = {'title': bet.name, 'description': bet.description, 'value': bet.value, 'creator': bet.creator.netid, 'arbitrator': arbitrator, 'taker': taker}
+
+	context = {'title': bet.name, 'netid': request.user.username, 'description': bet.description, 'value': bet.value, 'creator': bet.creator.netid, 'arbitrator': arbitrator, 'taker': taker, 'betid': cbet, 'status': bet.status, 'expirydate': bet.expdate}
 
 	return render(request, 'bets/betpage.html', context)
 
@@ -141,6 +150,8 @@ def addbet(request, cbet):
 	context = {'netid': u.netid, 'betlist': allbets, 'friendslist': allfriends, 'balance': balance, 'committed': committed, 'availablefunds': availablefunds, 'numfriends': len(allfriends), 'numbets': len(allbets)}
 	return render(request, 'bets/dashboard.html', context)
 
+def arbitrate(request, cbet):
+	pass
 
 @login_required
 def deletebet(request, cbet):
@@ -194,6 +205,59 @@ def deletefriend(request, cfriend):
 	
 	context = {'netid': u.netid, 'betlist': allbets, 'friendslist': allfriends, 'balance': balance, 'committed': committed, 'availablefunds': availablefunds, 'numfriends': len(allfriends), 'numbets': len(allbets)}
 	return render(request, 'bets/dashboard.html', context)
+
+@login_required
+def arbitratedbet(request, cbet):
+
+	bet = get_object_or_404(Bet, id = cbet)
+
+	if request.method == 'POST':
+		if 'taker' in request.POST:
+			winnerid = bet.taker.netid
+			loserid = bet.creator.netid
+		else:
+			winnerid = bet.creator.netid
+			loserid = bet.taker.netid
+		
+		winner = get_object_or_404(Player, netid = winnerid)
+		loser = get_object_or_404(Player, netid = loserid)
+
+		winner.addBalance(bet.value)
+		winner.committed -= bet.value
+		loser.committed -= bet.value
+
+		winner.save()
+		loser.save()
+
+		bet.delete()
+
+		u = get_object_or_404(Player, netid = request.user.username)
+
+		balance = u"\u00A3 " + format(u.balance, '.2f')
+		committed = u"\u00A3 " + format(u.committed, '.2f')
+		availablefunds = u"\u00A3 " + format(u.balance - u.committed, '.2f')
+
+		allfriends = u.friendlist.split('%') # list of friends
+
+		betscreated = Bet.objects.filter(creator = u)
+		betstaken = Bet.objects.filter(taker = u)
+		betsarbitrated = Bet.objects.filter(arbitrator = u)
+
+		allbets = list(chain(betscreated, betstaken, betsarbitrated))
+
+		context = {'netid': u.netid, 'betlist': allbets, 'friendslist': allfriends, 'balance': balance, 'committed': committed, 'availablefunds': availablefunds, 'numfriends': len(allfriends), 'numbets': len(allbets)}
+		return render(request, 'bets/dashboard.html', context)
+
+	else:
+		arbitrator = 'Not Yet Taken'
+		taker = 'Not Yet Taken'
+		if bet.status == True:
+			arbitrator = bet.arbitrator.netid
+			taker = bet.taker.netid
+
+		context = {'title': bet.name, 'netid': request.user.username, 'description': bet.description, 'value': bet.value, 'creator': bet.creator.netid, 'arbitrator': arbitrator, 'taker': taker, 'betid': cbet}
+		return render(request, 'bets/betpage.html', context)
+			
 
 @login_required
 def search(request):
