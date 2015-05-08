@@ -104,6 +104,37 @@ def betpage(request, cbet):
 	return render(request, 'bets/betpage.html', context)
 
 @login_required
+# You add a bet if you've been invited to the bet as a taker.
+def addbet(request, cbet):
+	bet = get_object_or_404(Bet, id = cbet)
+	u = get_object_or_404(Player, netid = request.user.username)
+
+	bet.status = True
+	bet.save()
+
+	print 'Bet accepted: ',
+	print bet
+
+	balance = '$' + format(u.balance, '.2f')
+	committed = '$' + format(u.committed, '.2f')
+	availablefunds = '$' + format(u.balance - u.committed, '.2f')
+
+	allfriends = u.friendlist.split('%') # list of friends
+
+	allfriends = u.friendlist.split('%') # list of friends
+
+	betscreated = Bet.objects.filter(creator = u)
+	betstaken = Bet.objects.filter(taker = u)
+	betsarbitrated = Bet.objects.filter(arbitrator = u)
+
+	print betstaken
+	allbets = list(chain(betscreated, betstaken, betsarbitrated))
+	
+	context = {'netid': u.netid, 'betlist': allbets, 'friendslist': allfriends, 'balance': balance, 'committed': committed, 'availablefunds': availablefunds, 'numfriends': len(allfriends), 'numbets': len(allbets)}
+	return render(request, 'bets/dashboard.html', context)
+
+
+@login_required
 def deletebet(request, cbet):
 
 	bet = get_object_or_404(Bet, id = cbet)
@@ -119,11 +150,15 @@ def deletebet(request, cbet):
 
 	allfriends = u.friendlist.split('%') # list of friends
 
-	allbets = Bet.objects.filter(creator = u)
-
+	betscreated = Bet.objects.filter(creator = u)
+	betstaken = Bet.objects.filter(taker = u)
+	betsarbitrated = Bet.objects.filter(arbitrator = u)
+	allbets = list(chain(betscreated, betstaken, betsarbitrated))
+	
 	context = {'netid': u.netid, 'betlist': allbets, 'friendslist': allfriends, 'balance': balance, 'committed': committed, 'availablefunds': availablefunds, 'numfriends': len(allfriends), 'numbets': len(allbets)}
 	return render(request, 'bets/dashboard.html', context)
 
+@login_required
 def deletefriend(request, cfriend):
 	u = get_object_or_404(Player, netid = request.user.username)
 
@@ -144,12 +179,19 @@ def deletefriend(request, cfriend):
 
 	allfriends = u.friendlist.split('%') # list of friends
 
-	allbets = Bet.objects.filter(creator = u)
-
+	betscreated = Bet.objects.filter(creator = u)
+	betstaken = Bet.objects.filter(taker = u)
+	betsarbitrated = Bet.objects.filter(arbitrator = u)
+	allbets = list(chain(betscreated, betstaken, betsarbitrated))
+	
 	context = {'netid': u.netid, 'betlist': allbets, 'friendslist': allfriends, 'balance': balance, 'committed': committed, 'availablefunds': availablefunds, 'numfriends': len(allfriends), 'numbets': len(allbets)}
 	return render(request, 'bets/dashboard.html', context)
 
 
+
+# STATIONARY PAGES
+def ncommerce(request):
+	return render(request, 'bets/ncommerce.html')
 
 
 
