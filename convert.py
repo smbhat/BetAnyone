@@ -14,8 +14,11 @@ def main():
 		netid = email[0:email.index("@")]
 		users.append(netid)
 
+	print '[',
+
 	for i in range(0, len(users)):
-		print str(users[i]),
-		print ','
+		sys.stdout.write('[')
+		sys.stdout.write('\"' + users[i] + '\"')
+		sys.stdout.write('], ')
 
 main()
