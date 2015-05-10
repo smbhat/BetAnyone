@@ -37,23 +37,25 @@ def dashboard(request):
 			date = request.POST['exp_date']
 			arb = request.POST['bet_arbitrate']
 
-			# if challenger field is filled out, arbitrator field must be filled out.
+			# arbitrator field must be filled out
 			# if challenger field is left blank, put it down as "no one"
-			# if challenger field is filled out
+			arbitrator = get_object_or_404(Player, netid=arb)
+
 			if c != '':
 				try:
 					challenged = get_object_or_404(Player, netid=c)
-					arbitrator = get_object_or_404(Player, netid=arb)
 					if verifiedNumber(amt):
 						b = Bet(name = n, value = float(amt), description = desc, category = '', creator = u, taker = challenged, arbitrator = arbitrator, expdate = date)
 						b.save()
+						print 'New bet made.'
 
 				except ObjectDoesNotExist:
 					print 'invalid netid'
 			# if challenger field is left empty
 			else:
+				nyt = get_object_or_404(Player, netid='Not Yet Taken')
 				if verifiedNumber(amt):
-					b = Bet(name = n, value = float(amt), description = desc, category = '', creator = u, expdate = date)
+					b = Bet(name = n, value = float(amt), description = desc, category = '', creator = u, taker = nyt, arbitrator = arbitrator, expdate = date)
 					b.save()
 					print 'New bet made.'
 
