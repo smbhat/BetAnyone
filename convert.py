@@ -15,5 +15,7 @@ def main():
 		users.append(netid)
 
 	for i in range(0, len(users)):
-		print str(users[i])
+		print str(users[i]),
+		print ','
+
 main()
