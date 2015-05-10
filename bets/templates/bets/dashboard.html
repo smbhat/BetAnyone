@@ -68,9 +68,13 @@
             }
             var x = document.forms["newbet"]["bet_challenge"].value;
             var validNetID = hasNetID(x);
-            if (!validNetID) {
-                alert("Please enter valid Challenger NetID");
-                return false;
+            if (x != "") {
+            if (x != null)  {
+                if (!validNetID) {
+                    alert("Please enter valid Challenger NetID");
+                    return false;
+                }
+            }
             }
             var x = document.forms["newbet"]["bet_arbitrate"].value;
             if (x == null || x == "") {
