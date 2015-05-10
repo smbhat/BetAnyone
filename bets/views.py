@@ -37,6 +37,8 @@ def dashboard(request):
 			date = request.POST['exp_date']
 			arb = request.POST['bet_arbitrate']
 
+			# if challenger field is filled out, arbitrator field must be filled out.
+			# if challenger field is left blank, put it down as "no one"
 			# if challenger field is filled out
 			if c != '':
 				try:
