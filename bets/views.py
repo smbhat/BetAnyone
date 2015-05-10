@@ -222,7 +222,7 @@ def arbitratedbet(request, cbet):
 		winner = get_object_or_404(Player, netid = winnerid)
 		loser = get_object_or_404(Player, netid = loserid)
 
-		winner.addBalance(bet.value)
+		winner.addBalance(2 * bet.value)
 		winner.committed -= bet.value
 		loser.committed -= bet.value
 
