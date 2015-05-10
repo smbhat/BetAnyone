@@ -37,6 +37,19 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script>
+        function validateNewFriend() {
+            var x = document.forms["newfriend"]["netid"].value;
+            if (x == null || x == "") {
+                alert("NetID must be filled out");
+                return false;
+            }
+            var validNetID = hasNetID(x);
+            if (!validNetID) {
+                alert("Please enter a valid NetID");
+                return false;
+            }
+        }
+        
         function validateNewBet() {
             var x = document.forms["newbet"]["bet_amt"].value;
             if (isNaN(x) || x == null || x == "") {
@@ -438,7 +451,7 @@
                 <h4 class="modal-title" id="myModalLabel">Add Friend</h4>
                 </div>
                 <div class="modal-body">
-                     <form id="requestacallform" method="POST" name="newfriend" action="/dashboard/">
+                     <form id="requestacallform" method="POST" name="newfriend" onsubmit = "return validateNewFriend()" action="/dashboard/">
                         {% csrf_token %}
 
                                 <div class="form-group">
