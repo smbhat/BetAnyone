@@ -1,7 +1,7 @@
 import json
 import sys
 import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'CurveIt.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'BetAnyone.settings')
 import django
 django.setup()
 from bets.models import Player
