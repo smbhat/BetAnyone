@@ -69,7 +69,7 @@
             var future = parseDate(x);
             var now = new Date();
             if (future < now) {
-                alert("Expiration Date must be in the future");
+                alert("Expiration Date must be at least 1 day in the future");
                 return false;
             }
             var x = document.forms["newbet"]["bet_challenge"].value;
