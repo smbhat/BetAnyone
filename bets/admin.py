@@ -7,7 +7,7 @@ class PlayerAdmin(admin.ModelAdmin):
 	fields = ['netid', 'balance', 'committed', 'friendlist']
 
 class BetAdmin(admin.ModelAdmin):
-	fields = ['description', 'value', 'category', 'status', 'expdate', 'creator', 'taker', 'arbitrator']
+	fields = ['name', 'description', 'value', 'category', 'status', 'expdate', 'creator', 'taker', 'arbitrator']
 
 
 admin.site.register(Player, PlayerAdmin)
