@@ -348,10 +348,11 @@
                             <i class="fa fa-users fa-fw"></i> Friend List
                         </div>
                         <!-- /.panel-heading -->
+
                         <div class="panel-body">
                             <table class="table">
                                 {% for p in friendslist %}
-                                    <td class="list-group-item" ><a href="#">
+                                    <td class="list-group-item" ><a href="#" data-toggle="modal" data-target="#createBetModal">
                                         {{ p }} </a>
                                         <button style='background: transparent; border: 0'><img src='../../static/bets/dist/img/delete.png' class='deleteButton2' id="user{{p}}"></button>
                                     </td>
